@@ -12,6 +12,7 @@ import JobList from "./JobList";
 import Pagination from "./PaginationControls";
 import ResultsCount from "./ResultsCount";
 import SortingControls from "./SortingControls";
+import { Toaster } from "react-hot-toast";
 import { JobItem } from "../lib/types";
 
 function App() {
@@ -41,6 +42,8 @@ function App() {
         <JobItemContent />
       </Container>
       <Footer />
+
+      <Toaster position="top-right" />
     </>
   );
 }
