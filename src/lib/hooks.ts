@@ -4,6 +4,9 @@ import { JobItem, JobItemExpanded } from "./types";
 import { handleError } from "./utils";
 import { useState, useEffect, useContext } from "react";
 import { BookmarksContext } from "../contexts/BookmarksContextProvider";
+import { ActiveIdContext } from "../contexts/ActiveIdContextProvider";
+import { JobItemsContext } from "../contexts/JobItemsContextProvider";
+import { SearchTextContext } from "../contexts/SearchTextContextProvider";
 
 type JobItemApiResponse = {
   public: boolean;
