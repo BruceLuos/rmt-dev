@@ -1,9 +1,14 @@
-import BookmarkIcon from "./BookmarkIcon";
 import { JobItem } from "../lib/types";
+import BookmarkIcon from "./BookmarkIcon";
 
-export default function JobListItem({ jobItem }: { jobItem: JobItem }) {
+type JobListItemProps = {
+  jobItem: JobItem;
+  isActive: boolean;
+};
+
+export default function JobListItem({ jobItem, isActive }: JobListItemProps) {
   return (
-    <li className="job-item">
+    <li className={`job-item ${isActive ? "job-item--active" : ""}`}>
       <a href={`#${jobItem.id}`} className="job-item__link">
         <div className="job-item__badge">{jobItem.badgeLetters}</div>
 
@@ -13,8 +18,8 @@ export default function JobListItem({ jobItem }: { jobItem: JobItem }) {
         </div>
 
         <div className="job-item__right">
-          <BookmarkIcon />
-          <time className="job-item__time">{jobItem.date}</time>
+          <BookmarkIcon id={jobItem.id} />
+          <time className="job-item__time">{jobItem.daysAgo}d</time>
         </div>
       </a>
     </li>
