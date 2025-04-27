@@ -3,34 +3,39 @@ import { useSearchQuery, useSearchTextContext } from "../lib/hooks";
 import { RESULTS_PER_PAGE } from "../lib/constants";
 import { SortBy, PageDirection, JobItem } from "../lib/types";
 
+// 定义工作项Context的类型，包含工作项列表、排序、分页等相关状态和方法
 type JobItemsContext = {
-  jobItems: JobItem[] | undefined;
-  jobItemsSortedAndSliced: JobItem[];
-  isLoading: boolean;
-  totalNumberOfResults: number;
-  totalNumberOfPages: number;
-  currentPage: number;
-  sortBy: SortBy;
-  handleChangePage: (direction: PageDirection) => void;
-  handleChangeSortBy: (newSortBy: SortBy) => void;
+  jobItems: JobItem[] | undefined; // 原始工作项数据
+  jobItemsSortedAndSliced: JobItem[]; // 排序和分页后的工作项
+  isLoading: boolean; // 加载状态
+  totalNumberOfResults: number; // 总结果数
+  totalNumberOfPages: number; // 总页数
+  currentPage: number; // 当前页码
+  sortBy: SortBy; // 排序方式
+  handleChangePage: (direction: PageDirection) => void; // 切换页面方法
+  handleChangeSortBy: (newSortBy: SortBy) => void; // 更改排序方法
 };
 
+// 创建Context，初始值为null
 export const JobItemsContext = createContext<JobItemsContext | null>(null);
 
+// 工作项Context Provider组件
 export default function JobItemsContextProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  // dependency on other context
+  // 从SearchTextContext获取防抖后的搜索文本
   const { debouncedSearchText } = useSearchTextContext();
 
-  // state
+  // 使用搜索文本获取工作项数据
   const { jobItems, isLoading } = useSearchQuery(debouncedSearchText);
+
+  // 分页和排序状态
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState<SortBy>("relevant");
 
-  // derived / computed state
+  // 计算总结果数和总页数
   const totalNumberOfResults = jobItems?.length || 0;
   const totalNumberOfPages = totalNumberOfResults / RESULTS_PER_PAGE;
   const jobItemsSorted = useMemo(
@@ -44,6 +49,7 @@ export default function JobItemsContextProvider({
       }),
     [sortBy, jobItems]
   );
+
   const jobItemsSortedAndSliced = useMemo(
     () =>
       jobItemsSorted.slice(

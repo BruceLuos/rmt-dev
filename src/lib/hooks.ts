@@ -4,7 +4,7 @@ import { JobItem, JobItemExpanded } from "./types";
 import { handleError } from "./utils";
 import { useState, useEffect, useContext } from "react";
 import { BookmarksContext } from "../contexts/BookmarksContextProvider";
-import { ActiveIdContext } from "../contexts/ActiveIdContextProvider";
+import { ActiveIdContext } from "../contexts/ActiveidContextProvider";
 import { JobItemsContext } from "../contexts/JobItemsContextProvider";
 import { SearchTextContext } from "../contexts/SearchTextContextProvider";
 
@@ -78,8 +78,6 @@ export function useJobItems(ids: number[]) {
   };
 }
 
-
-
 // --------------------------------------------------
 
 type JobItemsApiResponse = {
@@ -101,15 +99,20 @@ const fetchJobItems = async (
   return data;
 };
 
+/**
+ * 使用React Query获取工作项数据的自定义Hook
+ * @param searchText - 搜索文本，用于获取相关的工作项
+ * @returns 包含工作项数据和加载状态的对象
+ */
 export function useSearchQuery(searchText: string) {
   const { data, isInitialLoading } = useQuery(
-    ["job-items", searchText],
+    ["job-items", searchText], // 查询键，包含搜索文本作为依赖
     () => fetchJobItems(searchText),
     {
       staleTime: 1000 * 60 * 60,
-      refetchOnWindowFocus: false,
-      retry: false,
-      enabled: Boolean(searchText),
+      refetchOnWindowFocus: false, // 窗口获得焦点时不重新获取
+      retry: false, // 失败时不重试
+      enabled: Boolean(searchText), // 只有当searchText有值时才执行查询
       onError: handleError,
     }
   );
