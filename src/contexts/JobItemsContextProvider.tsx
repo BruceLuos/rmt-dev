@@ -12,7 +12,7 @@ type JobItemsContext = {
   totalNumberOfPages: number; // 总页数
   currentPage: number; // 当前页码
   sortBy: SortBy; // 排序方式
-  handleChangePage: (direction: PageDirection) => void; // 切换页面方法
+  handleChangePage: (direction: PageDirection) => void; // 切换分页
   handleChangeSortBy: (newSortBy: SortBy) => void; // 更改排序方法
 };
 
